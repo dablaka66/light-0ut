@@ -42,7 +42,7 @@ function Board({ nrows, ncols, chanceLightStartsOn }) {
   }
   //JD function to find cell around return a array
   function findCellsAround(x,y) {
-      return [ [(x -1),y],[x,(y-1)],[x,(y+1)],[(x+1),y] ]
+      return [ [x,y],[(x -1),y],[x,(y-1)],[x,(y+1)],[(x+1),y] ]
   }
   //end
   function hasWon(board) {
@@ -66,13 +66,15 @@ function Board({ nrows, ncols, chanceLightStartsOn }) {
         } */
         // ? flipCell shuld be defiane as le or const ???
         let flipCells = (cellToChange,boardCopy)=>{
+          console.log('cellToChange: ', cellToChange);
+          
           cellToChange.map(cell => {
             let x = cell[0];
-            let xy = cell[1];
+            let y = cell[1];
             if (x >= 0 && x < ncols && y >= 0 && y < nrows) {
-              let ini = boardCopy[x][y];
+              let ini = boardCopy[x][y];//where to init this variable ?//temp  to print
               boardCopy[x][y] = boardCopy[x][y] === 0 ?  1:0;
-              console.log("x=" + x + " Y=" + y + "ini =" + ini + "end="+ boardCopy[x][y] );
+              //console.log("x=" + x + " Y=" + y + "ini =" + ini + "end="+ boardCopy[x][y] );
             } 
           })};
         
@@ -99,7 +101,10 @@ function Board({ nrows, ncols, chanceLightStartsOn }) {
     return <div>You Win!</div>;
   }
   // TODO
-
+  function tempfun (evt) {
+    console.log("evt ",evt.target.id);
+    flipCellsAround(evt.target.id);
+  }
   // make table board
   let tableBoard = [];
   let cellData;
@@ -107,16 +112,19 @@ function Board({ nrows, ncols, chanceLightStartsOn }) {
     let row =[ ];
     for (let y=0 ; y< ncols; y++){
       cellData = {"x": x, "y" : y , "islit": board[x][y]}; 
-      console.log('cellData', cellData);
+      //console.log('cellData', cellData);
       row.push(
         <Cell 
           key={cellData.x + "-" + cellData.y}
           data = {cellData}
           lit = {cellData.islit}
-          flipCellsAroundMe={evt => flipCellsAround(cellData.x + "-" + cellData.y)} />
+          flipCellsAroundMe={(evt) => tempfun(event)}
+          />
+          );
+          //flipCellsAroundMe={(evt) => flipCellsAround(EventTarget.cellData.x + "-" + cellData.y)} />
           //mycellsAround = {findCellsAround(x,y)}
-      );
-
+          //
+      
     }
     tableBoard.push(<tr key = {x}>{row}</tr>);
   }

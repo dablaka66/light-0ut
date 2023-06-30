@@ -14,12 +14,16 @@ import "./Cell.css";
  *
  **/
 
-function Cell({ data,lit,flipCellsAroundMe }) {
-  const classes = `Cell ${lit === "1" ? "Cell-lit" : "no lit"}`;
-  console.log('Lit: ', lit);
-  console.log('classes: ', classes);
+function Cell({ data,flipCellsAroundMe }) {
+  let clases = " Cell "
+  if (data.islit === 1 ){
+    clases = clases +  "Cell-lit"; 
+  } 
+  //const classes = `Cell ${data.islit} === 1 ? "Cell-lit" : "no lit"`;
+  //console.log('Lit: ', lit);
+  //console.log('clases: ', clases);
   
-  return <td id={data.x + "-" + data.y} className={classes} onClick={flipCellsAroundMe} />;
+  return <td id={data.x + "-" + data.y} className={clases} onClick={flipCellsAroundMe} />;
 }
 
 export default Cell;
